@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Attendance System</title>
+    <link="stylesheet" rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Glassmorphism Theme for Attendance System */
+:root {
+    --primary: #4f8cff;
+    --primary-dark: #2563eb;
+    --background: #f6f8fa;
+    --sidebar-bg: #fff;
+    --card-bg: rgba(255,255,255,0.85);
+    --border: #e5e7eb;
+    --text: #22223b;
+    --muted: #6c757d;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --shadow: 0 4px 24px 0 rgba(80,80,120,0.08);
+    --radius: 18px;
+    --transition: 0.2s cubic-bezier(.4,0,.2,1);
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    margin: 0;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 1.5rem 0 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.dashboard {
+    display: flex;
+    gap: 2rem;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 1.2rem 1.2rem 1.2rem;
+    min-width: 220px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+}
+
+.sidebar h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar li {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.sidebar button {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.08rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    text-align: left;
+    font-weight: 500;
+}
+
+.sidebar button.active,
+.sidebar button:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.profile-section {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.profile-section img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.profile-section .profile-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.section {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+    transition: transform var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.stat-card p {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary);
+}
+
+form {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.2rem 1rem 1rem 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+}
+
+.form-group {
+    margin-bottom: 1.1rem;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--primary-dark);
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    background: #f9fafb;
+    color: var(--text);
+    transition: border var(--transition);
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: var(--primary);
+}
+
+.btn {
+    padding: 0.6rem 1.3rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+    box-shadow: 0 2px 8px 0 rgba(80,80,120,0.07);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-success {
+    background: var(--success);
+    color: #fff;
+}
+
+.btn-success:hover {
+    background: #16a34a;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.95rem;
+}
+
+.search-container {
+    margin-bottom: 1rem;
+}
+
+.search-container input[type="text"] {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1rem;
+    width: 100%;
+    font-size: 1rem;
+    background: #f9fafb;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+th, td {
+    padding: 0.8rem 0.7rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: #f1f5f9;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f3f6fa;
+}
+
+#attendance-list table,
+#attendance-results table {
+    margin-top: 1rem;
+}
+
+#attendance-list label,
+#attendance-results label {
+    margin-right: 1.2rem;
+    font-weight: 400;
+}
+
+#attendance-list input[type="radio"] {
+    accent-color: var(--primary);
+}
+
+#attendance-date:focus,
+#view-date:focus {
+    border-color: var(--primary);
+}
+
+#attendance-date,
+#view-date {
+    background: #f9fafb;
+}
+
+#save-attendance {
+    margin-top: 1.2rem;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    .sidebar {
+        flex-direction: row;
+        min-width: 0;
+        max-width: 100%;
+        justify-content: space-between;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .sidebar ul {
+        display: flex;
+        gap: 0.5rem;
+        width: auto;
+    }
+    .sidebar li {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 0.2rem;
+    }
+    .stat-card {
+        padding: 1rem 0.5rem;
+    }
+    form {
+        padding: 0.8rem 0.5rem;
+    }
+    th, td {
+        padding: 0.5rem 0.3rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="https://img.icons8.com/color/96/000000/school-building.png" alt="School Logo" style="height:48px; border-radius:12px; background:#fff;">
+                <h1 style="margin:0;">School Attendance System</h1>
+            </div>
+            <div style="font-size:1.1rem; font-weight:500;">
+                <span style="color:#fff; opacity:0.8;">Academic Year: 2025-26</span>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <!-- Profile Section -->
+                <div class="profile-section">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=4f8cff&color=fff" alt="Profile">
+                    <div class="profile-name">Admin</div>
+                    <div style="font-size:0.95rem; color:var(--muted); margin-bottom:0.5rem;">Administrator</div>
+                </div>
+                <h2>Menu</h2>
+                <ul>
+                    <li><button id="dashboard-btn" class="active">Dashboard</button></li>
+                    <li><button id="manage-classes-btn">Manage Classes</button></li>
+                    <li><button id="manage-students-btn">Manage Students</button></li>
+                    <li><button id="take-attendance-btn">Take Attendance</button></li>
+                    <li><button id="view-attendance-btn">View Attendance</button></li>
+                    <li><button id="about-btn">About</button></li>
+                </ul>
+            </div>
+            <div class="main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="section active">
+                    <h2>Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Classes</h3>
+                            <p id="total-classes">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Students</h3>
+                            <p id="total-students">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Present Today</h3>
+                            <p id="present-today">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Absent Today</h3>
+                            <p id="absent-today">0</p>
+                        </div>
+                    </div>
+                    <div style="margin-top:2rem; text-align:right;">
+                        <button id="export-attendance-btn" class="btn btn-primary">Export Attendance (CSV)</button>
+                    </div>
+                </div>
+                <!-- Manage Classes Section -->
+                <div id="manage-classes-section" class="section">
+                    <h2>Manage Classes</h2>
+                    <form id="add-class-form">
+                        <div class="form-group">
+                            <label for="class-name">Class Name</label>
+                            <input type="text" id="class-name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Class</button>
+                    </form>
+                    <div class="search-container">
+                        <input type="text" id="class-search" placeholder="Search classes...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="class-list"></tbody>
+                    </table>
+                </div>
+                <!-- Manage Students Section -->
+                <div id="manage-students-section" class="section">
+                    <h2>Manage Students</h2>
+                    <form id="add-student-form">
+                        <div class="form-group">
+                            <label for="student-name">Student Name</label>
+                            <input type="text" id="student-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-roll">Roll Number</label>
+                            <input type="text" id="student-roll" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-class">Class</label>
+                            <select id="student-class" required>
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Student</button>
+                    </form>
+                    <div class="search-container">
+                        <input type="text" id="student-search" placeholder="Search students...">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Roll No</th>
+                                <th>Class</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student-list"></tbody>
+                    </table>
+                </div>
+                <!-- Take Attendance Section -->
+                <div id="take-attendance-section" class="section">
+                    <h2>Take Attendance</h2>
+                    <div class="form-group">
+                        <label for="attendance-class">Class</label>
+                        <select id="attendance-class" required>
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="attendance-date">Date</label>
+                        <input type="date" id="attendance-date" required>
+                    </div>
+                    <div id="attendance-list"></div>
+                    <button id="save-attendance" class="btn btn-success" style="margin-top: 20px; display: none;">Save Attendance</button>
+                </div>
+                <!-- View Attendance Section -->
+                <div id="view-attendance-section" class="section">
+                    <h2>View Attendance</h2>
+                    <div class="form-group">
+                        <label for="view-class">Class</label>
+                        <select id="view-class" required>
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="view-date">Date</label>
+                        <input type="date" id="view-date" required>
+                    </div>
+                    <button id="view-attendance-btn-submit" class="btn btn-primary">View</button>
+                    <div id="attendance-results" style="margin-top: 20px;"></div>
+                </div>
+                <!-- About Section -->
+                <div id="about-section" class="section">
+                    <h2>About</h2>
+                    <div style="background:var(--card-bg); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow);">
+                        <p>
+                            <b>School Attendance System</b> is a modern web app for managing classes, students, and daily attendance.<br>
+                            <b>Features:</b> Class & student management, attendance tracking, CSV export, and more.<br>
+                            <b>Developed by:</b> Your School IT Team
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer style="margin-top:2rem; text-align:center; color:var(--muted); font-size:0.98rem;">
+        &copy; 2025 School Attendance System. All rights reserved.
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLocalStorage();
+            setupNavigation();
+            loadDashboard();
+            setDefaultDates();
+            loadClasses();
+            loadStudents();
+            loadClassesIntoSelects();
+        });
+
+        function initLocalStorage() {
+            if (!localStorage.getItem('classes')) localStorage.setItem('classes', JSON.stringify([]));
+            if (!localStorage.getItem('students')) localStorage.setItem('students', JSON.stringify([]));
+            if (!localStorage.getItem('attendance')) localStorage.setItem('attendance', JSON.stringify([]));
+        }
+
+        function setDefaultDates() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendance-date').value = today;
+            document.getElementById('view-date').value = today;
+        }
+
+        function setupNavigation() {
+            const sections = {
+                'dashboard-btn': 'dashboard-section',
+                'manage-classes-btn': 'manage-classes-section',
+                'manage-students-btn': 'manage-students-section',
+                'take-attendance-btn': 'take-attendance-section',
+                'view-attendance-btn': 'view-attendance-section'
+            };
+            Object.keys(sections).forEach(btnId => {
+                document.getElementById(btnId).addEventListener('click', () => {
+                    Object.keys(sections).forEach(id => {
+                        document.getElementById(id).classList.remove('active');
+                        document.getElementById(sections[id]).classList.remove('active');
+                    });
+                    document.getElementById(btnId).classList.add('active');
+                    document.getElementById(sections[btnId]).classList.add('active');
+                    if (btnId === 'manage-students-btn' || btnId === 'take-attendance-btn' || btnId === 'view-attendance-btn') {
+                        loadClassesIntoSelects();
+                    }
+                });
+            });
+        }
+
+        function loadDashboard() {
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            const today = new Date().toISOString().split('T')[0];
+            const todayAttendance = attendance.filter(a => a.date === today).flatMap(a => a.students);
+
+            document.getElementById('total-classes').textContent = classes.length;
+            document.getElementById('total-students').textContent = students.length;
+            document.getElementById('present-today').textContent = todayAttendance.filter(s => s.status === 'present').length;
+            document.getElementById('absent-today').textContent = todayAttendance.filter(s => s.status === 'absent').length;
+        }
+
+        document.getElementById('add-class-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('class-name').value.trim();
+            if (!name) return alert('Class name is required');
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            classes.push({ id: Date.now().toString(), name });
+            localStorage.setItem('classes', JSON.stringify(classes));
+            document.getElementById('add-class-form').reset();
+            loadClasses();
+            loadClassesIntoSelects();
+            loadDashboard();
+        });
+
+        document.getElementById('class-search').addEventListener('input', (e) => loadClasses(e.target.value));
+
+        function loadClasses(search = '') {
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            const filtered = classes.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+            const tbody = document.getElementById('class-list');
+            tbody.innerHTML = filtered.length ? filtered.map(c => `
+                <tr>
+                    <td>${c.id}</td>
+                    <td>${c.name}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteClass('${c.id}')">Delete</button></td>
+                </tr>
+            `).join('') : '<tr><td colspan="3">No classes found</td></tr>';
+        }
+
+        function deleteClass(id) {
+            if (!confirm('Are you sure?')) return;
+            let classes = JSON.parse(localStorage.getItem('classes')) || [];
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            let attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            classes = classes.filter(c => c.id !== id);
+            students = students.filter(s => s.classId !== id);
+            attendance = attendance.filter(a => a.classId !== id);
+            localStorage.setItem('classes', JSON.stringify(classes));
+            localStorage.setItem('students', JSON.stringify(students));
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            loadClasses();
+            loadStudents();
+            loadClassesIntoSelects();
+            loadDashboard();
+        }
+
+        document.getElementById('add-student-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const roll = document.getElementById('student-roll').value.trim();
+            const classId = document.getElementById('student-class').value;
+            if (!name || !roll || !classId) return alert('All fields are required');
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            students.push({ id: Date.now().toString(), name, roll, classId });
+            localStorage.setItem('students', JSON.stringify(students));
+            document.getElementById('add-student-form').reset();
+            loadStudents();
+            loadDashboard();
+        });
+
+        document.getElementById('student-search').addEventListener('input', (e) => loadStudents(e.target.value));
+
+        function loadStudents(search = '') {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            const filtered = students.filter(s => 
+                s.name.toLowerCase().includes(search.toLowerCase()) || 
+                s.roll.toLowerCase().includes(search.toLowerCase())
+            );
+            const tbody = document.getElementById('student-list');
+            tbody.innerHTML = filtered.length ? filtered.map(s => {
+                const className = classes.find(c => c.id === s.classId)?.name || 'Unknown';
+                return `
+                    <tr>
+                        <td>${s.id}</td>
+                        <td>${s.name}</td>
+                        <td>${s.roll}</td>
+                        <td>${className}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">Delete</button></td>
+                    </tr>
+                `;
+            }).join('') : '<tr><td colspan="5">No students found</td></tr>';
+        }
+
+        function deleteStudent(id) {
+            if (!confirm('Are you sure?')) return;
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            let attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            students = students.filter(s => s.id !== id);
+            attendance = attendance.map(a => {
+                a.students = a.students.filter(s => s.studentId !== id);
+                return a;
+            });
+            localStorage.setItem('students', JSON.stringify(students));
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            loadStudents();
+            loadDashboard();
+        }
+
+        function loadClassesIntoSelects() {
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            const selects = ['student-class', 'attendance-class', 'view-class'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Select Class</option>' + 
+                    classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            });
+        }
+
+        document.getElementById('attendance-class').addEventListener('change', loadAttendanceForm);
+        document.getElementById('save-attendance').addEventListener('click', saveAttendance);
+
+        function loadAttendanceForm() {
+            const classId = document.getElementById('attendance-class').value;
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const classStudents = students.filter(s => s.classId === classId);
+            const list = document.getElementById('attendance-list');
+            const saveBtn = document.getElementById('save-attendance');
+            if (!classId || classStudents.length === 0) {
+                list.innerHTML = '<p>No students found for this class.</p>';
+                saveBtn.style.display = 'none';
+                return;
+            }
+            list.innerHTML = '<table><thead><tr><th>Roll</th><th>Name</th><th>Status</th></tr></thead><tbody>' +
+                classStudents.map(s => `
+                    <tr>
+                        <td>${s.roll}</td>
+                        <td>${s.name}</td>
+                        <td>
+                            <label><input type="radio" name="status-${s.id}" value="present" checked> Present</label>
+                            <label><input type="radio" name="status-${s.id}" value="absent"> Absent</label>
+                        </td>
+                    </tr>
+                `).join('') + '</tbody></table>';
+            saveBtn.style.display = 'block';
+        }
+
+        function saveAttendance() {
+            const classId = document.getElementById('attendance-class').value;
+            const date = document.getElementById('attendance-date').value;
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const classStudents = students.filter(s => s.classId === classId);
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            const attendanceData = classStudents.map(s => ({
+                studentId: s.id,
+                status: document.querySelector(`input[name="status-${s.id}"]:checked`).value
+            }));
+            const existing = attendance.findIndex(a => a.classId === classId && a.date === date);
+            if (existing !== -1) attendance[existing].students = attendanceData;
+            else attendance.push({ classId, date, students: attendanceData });
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            loadAttendanceForm();
+            loadDashboard();
+            alert('Attendance saved!');
+        }
+
+        document.getElementById('view-attendance-btn-submit').addEventListener('click', viewAttendance);
+
+        function viewAttendance() {
+            const classId = document.getElementById('view-class').value;
+            const date = document.getElementById('view-date').value;
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const record = attendance.find(a => a.classId === classId && a.date === date);
+            const results = document.getElementById('attendance-results');
+            if (!record) {
+                results.innerHTML = '<p>No attendance records found.</p>';
+                return;
+            }
+            results.innerHTML = '<table><thead><tr><th>Roll</th><th>Name</th><th>Status</th></tr></thead><tbody>' +
+                record.students.map(s => {
+                    const student = students.find(st => st.id === s.studentId);
+                    return `
+                        <tr>
+                            <td>${student?.roll || 'Unknown'}</td>
+                            <td>${student?.name || 'Unknown'}</td>
+                            <td style="color: ${s.status === 'present' ? 'var(--success)' : 'var(--danger)'}">${s.status}</td>
+                        </tr>
+                    `;
+                }).join('') + '</tbody></table>';
+        }
+
+        // Add navigation for About section
+        document.getElementById('about-btn').addEventListener('click', () => {
+            document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('about-btn').classList.add('active');
+            document.getElementById('about-section').classList.add('active');
+        });
+
+        // Export Attendance as CSV
+        document.getElementById('export-attendance-btn').addEventListener('click', () => {
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const classes = JSON.parse(localStorage.getItem('classes')) || [];
+            let csv = 'Class,Date,Roll,Name,Status\n';
+            attendance.forEach(a => {
+                const className = classes.find(c => c.id === a.classId)?.name || '';
+                a.students.forEach(s => {
+                    const student = students.find(st => st.id === s.studentId);
+                    csv += `"${className}","${a.date}","${student?.roll || ''}","${student?.name || ''}","${s.status}"\n`;
+                });
+            });
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'attendance.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+/* Modern Glassmorphism Theme for Attendance System */
+:root {
+    --primary: #4f8cff;
+    --primary-dark: #2563eb;
+    --background: #f6f8fa;
+    --sidebar-bg: #fff;
+    --card-bg: rgba(255,255,255,0.85);
+    --border: #e5e7eb;
+    --text: #22223b;
+    --muted: #6c757d;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --shadow: 0 4px 24px 0 rgba(80,80,120,0.08);
+    --radius: 18px;
+    --transition: 0.2s cubic-bezier(.4,0,.2,1);
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    margin: 0;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 1.5rem 0 1rem 0;
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.dashboard {
+    display: flex;
+    gap: 2rem;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 1.2rem 1.2rem 1.2rem;
+    min-width: 220px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+}
+
+.sidebar h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar li {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.sidebar button {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.08rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    text-align: left;
+    font-weight: 500;
+}
+
+.sidebar button.active,
+.sidebar button:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.profile-section {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.profile-section img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.profile-section .profile-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.section {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+    transition: transform var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.stat-card p {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary);
+}
+
+form {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.2rem 1rem 1rem 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+}
+
+.form-group {
+    margin-bottom: 1.1rem;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--primary-dark);
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    background: #f9fafb;
+    color: var(--text);
+    transition: border var(--transition);
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: var(--primary);
+}
+
+.btn {
+    padding: 0.6rem 1.3rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+    box-shadow: 0 2px 8px 0 rgba(80,80,120,0.07);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-success {
+    background: var(--success);
+    color: #fff;
+}
+
+.btn-success:hover {
+    background: #16a34a;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.95rem;
+}
+
+.search-container {
+    margin-bottom: 1rem;
+}
+
+.search-container input[type="text"] {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1rem;
+    width: 100%;
+    font-size: 1rem;
+    background: #f9fafb;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+th, td {
+    padding: 0.8rem 0.7rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: #f1f5f9;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f3f6fa;
+}
+
+#attendance-list table,
+#attendance-results table {
+    margin-top: 1rem;
+}
+
+#attendance-list label,
+#attendance-results label {
+    margin-right: 1.2rem;
+    font-weight: 400;
+}
+
+#attendance-list input[type="radio"] {
+    accent-color: var(--primary);
+}
+
+#attendance-date:focus,
+#view-date:focus {
+    border-color: var(--primary);
+}
+
+#attendance-date,
+#view-date {
+    background: #f9fafb;
+}
+
+#save-attendance {
+    margin-top: 1.2rem;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    .sidebar {
+        flex-direction: row;
+        min-width: 0;
+        max-width: 100%;
+        justify-content: space-between;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .sidebar ul {
+        display: flex;
+        gap: 0.5rem;
+        width: auto;
+    }
+    .sidebar li {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 0.2rem;
+    }
+    .stat-card {
+        padding: 1rem 0.5rem;
+    }
+    form {
+        padding: 0.8rem 0.5rem;
+    }
+    th, td {
+        padding: 0.5rem 0.3rem;
+    }
+}
